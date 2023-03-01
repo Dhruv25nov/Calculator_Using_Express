@@ -1,23 +1,29 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-
-
 const app = express();
 const port = 3000;
 
-app.use(bodyParser.urlencoded({extended: true}));
-// app.use(express.static(__dirname + '/public'));
-app.get("/",function(req,res){
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
+// Home page
+app.get("/", function (req, res) {
     res.send("Working");
 });
 
-app.get("/calculator",function(req,res){
-   
+// Calculator Page
+app.get("/calculator", function (req, res) {
+
     res.sendFile(__dirname + "/index.html");
 });
 
+// BMI calculator Page
+app.get("/bmicalculator", function (req, res) {
+    res.sendFile(__dirname + "/bmiCalculator.html");
+})
 
-app.post("/",function(req, res) {
+// Calculator result Page
+app.post("/", function (req, res) {
 
     var num1 = req.body.num1;
     var num2 = req.body.num2;
@@ -26,6 +32,19 @@ app.post("/",function(req, res) {
     res.send("The sum of the two number is " + summ)
 });
 
-app.listen(port, function(){
+// BMI Calculator result Page
+app.post("/bmicalculator", function (req, res) {
+
+    var height = parseFloat(req.body.height);
+    var weight = parseFloat(req.body.weight);
+    var bmi = (weight / (height * height));
+    res.send("Your bmi is " + bmi);
+
+
+});
+
+
+
+app.listen(port, function () {
     console.log("Server is up");
 });
